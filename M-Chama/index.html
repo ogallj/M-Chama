@@ -1,0 +1,909 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>M-Chama: Digital Community Savings</title>
+  <script src="https://cdn.tailwindcss.com/3.4.16"></script>
+  <script>tailwind.config={theme:{extend:{colors:{primary:'#00a651',secondary:'#e42313'},borderRadius:{'none':'0px','sm':'4px',DEFAULT:'8px','md':'12px','lg':'16px','xl':'20px','2xl':'24px','3xl':'32px','full':'9999px','button':'8px'}}}}</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.min.css">
+  <style>
+    :where([class^="ri-"])::before { content: "\f3c2"; }
+    body {
+      font-family: 'Poppins', sans-serif;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      font-family: 'Montserrat', sans-serif;
+    }
+    .hero-pattern {
+      background-image: url('https://readdy.ai/api/search-image?query=Modern%2520African%2520pattern%2520background%2520with%2520subtle%2520geometric%2520shapes%2520and%2520traditional%2520motifs%2520in%2520warm%2520earth%2520tones%2520with%2520touches%2520of%2520green%2520and%2520red.%2520The%2520left%2520side%2520is%2520lighter%2520and%2520more%2520faded%2520to%2520allow%2520text%2520to%2520be%2520readable%2C%2520while%2520the%2520right%2520side%2520is%2520more%2520vibrant%2520and%2520detailed.%2520The%2520transition%2520between%2520left%2520and%2520right%2520is%2520smooth%2520and%2520natural.&width=1920&height=1080&seq=hero-pattern&orientation=landscape');
+      background-size: cover;
+      background-position: center;
+    }
+    .feature-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    }
+    .timeline-dot::before {
+      content: '';
+      position: absolute;
+      left: -38px;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background-color: #00a651;
+      border: 4px solid white;
+      z-index: 10;
+    }
+    .timeline-line::before {
+      content: '';
+      position: absolute;
+      left: -29px;
+      top: 0;
+      bottom: 0;
+      width: 2px;
+      background-color: #e5e7eb;
+      z-index: 0;
+    }
+    input:focus, button:focus {
+      outline: none;
+      box-shadow: 0 0 0 3px rgba(0, 166, 81, 0.3);
+    }
+    .custom-checkbox {
+      position: relative;
+      padding-left: 35px;
+      cursor: pointer;
+      user-select: none;
+    }
+    .custom-checkbox input {
+      position: absolute;
+      opacity: 0;
+      cursor: pointer;
+      height: 0;
+      width: 0;
+    }
+    .checkmark {
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 24px;
+      width: 24px;
+      background-color: #fff;
+      border: 2px solid #e5e7eb;
+      border-radius: 4px;
+    }
+    .custom-checkbox:hover input ~ .checkmark {
+      border-color: #00a651;
+    }
+    .custom-checkbox input:checked ~ .checkmark {
+      background-color: #00a651;
+      border-color: #00a651;
+    }
+    .checkmark:after {
+      content: "";
+      position: absolute;
+      display: none;
+    }
+    .custom-checkbox input:checked ~ .checkmark:after {
+      display: block;
+    }
+    .custom-checkbox .checkmark:after {
+      left: 9px;
+      top: 5px;
+      width: 5px;
+      height: 10px;
+      border: solid white;
+      border-width: 0 2px 2px 0;
+      transform: rotate(45deg);
+    }
+  </style>
+</head>
+<body class="bg-gray-50">
+<!-- Header Navigation -->
+<header class="bg-white shadow-sm fixed w-full top-0 z-50">
+  <div class="container mx-auto px-4 py-4 flex items-center justify-between">
+    <div class="flex items-center">
+      <span class="text-3xl font-['Montserrat'] font-bold mr-2"><span class="text-secondary">M</span><span class="text-primary">-Chama</span></span>
+      <div class="h-6 w-px bg-gray-300 mx-3"></div>
+      <div class="flex items-center space-x-3">
+        <span class="text-xs font-medium text-gray-500">Powered by</span>
+        <div class="flex items-center space-x-2">
+          <div class="w-6 h-6 flex items-center justify-center">
+            <img src="img/safaricom.png" alt="safaricom logo">
+          </div>
+          <span class="font-semibold text-gray-700"></span>
+        </div>
+        <div class="flex items-center space-x-2">
+          <div class="w-6 h-6 flex items-center justify-center">
+            <img src="img/mpesa.png" alt="mpesa logo">
+          </div>
+          <span class="font-semibold text-gray-700"></span>
+        </div>
+      </div>
+    </div>
+    <nav class="hidden md:flex items-center space-x-8">
+      <a href="#features" class="nav-link text-gray-700 hover:text-primary font-medium">Features</a>
+      <a href="#how-it-works" class="nav-link text-gray-700 hover:text-primary font-medium">How It Works</a>
+      <a href="#testimonials" class="nav-link text-gray-700 hover:text-primary font-medium">Testimonials</a>
+      <a href="#benefits" class="nav-link text-gray-700 hover:text-primary font-medium">Benefits</a>
+      <a href="signUp.html" data-readdy="true">
+        <button class="bg-primary text-white px-6 py-2 !rounded-button font-medium hover:bg-opacity-90 transition whitespace-nowrap">
+          Get Started
+        </button>
+      </a>
+    </nav>
+    <button class="md:hidden w-10 h-10 flex items-center justify-center">
+      <i class="ri-menu-line text-gray-700 ri-2x"></i>
+    </button>
+  </div>
+</header>
+<!-- Hero Section -->
+<section class="hero-pattern mt-16 relative">
+  <div class="absolute inset-0 bg-gradient-to-r from-black/40 to-black/20"></div>
+  <div class="container mx-auto px-4 py-24 md:py-32 relative z-10">
+    <div class="w-full flex flex-col md:flex-row items-center">
+      <div class="md:w-1/2 text-white mb-12 md:mb-0">
+        <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight mb-6">
+          M-Chama: Digital Community Savings
+        </h1>
+        <p class="text-lg md:text-xl mb-8 text-gray-100 max-w-xl">
+          Empower your community with a modern digital savings solution that brings together traditional values and cutting-edge technology.
+        </p>
+        <div class="flex flex-col sm:flex-row gap-4">
+          <button class="bg-primary text-white px-8 py-4 !rounded-button font-semibold hover:bg-opacity-90 transition flex items-center whitespace-nowrap">
+            <i class="ri-group-line mr-2 ri-lg"></i>
+            Start Saving Together
+          </button>
+          <button class="bg-white text-primary px-8 py-4 !rounded-button font-semibold hover:bg-gray-100 transition flex items-center whitespace-nowrap">
+            <i class="ri-information-line mr-2 ri-lg"></i>
+            Learn More
+          </button>
+        </div>
+        <div class="flex items-center mt-8">
+          <div class="flex -space-x-2">
+            <div class="w-12 h-12 rounded-full bg-white p-1">
+              <div class="w-full h-full flex items-center justify-center bg-primary rounded-full">
+                <img src="img/safaricombusiness.png" alt="safaricom business" class="rounded-full">
+              </div>
+            </div>
+            <div class="w-12 h-12 rounded-full bg-white p-1">
+              <div class="w-full h-full flex items-center justify-center bg-secondary rounded-full">
+                <img src="img/safaricom.png" alt="mpesa safaricom">
+              </div>
+            </div>
+          </div>
+          <div class="ml-4">
+            <p class="text-sm font-medium">Trusted by Safaricom & M-PESA</p>
+            <p class="text-xs text-gray-200">Secure & Reliable Technology</p>
+          </div>
+        </div>
+      </div>
+      <div class="md:w-1/2 flex justify-center">
+        <img src="https://readdy.ai/api/search-image?query=Group%2520of%2520diverse%2520African%2520people%2520using%2520smartphones%2520for%2520mobile%2520banking%2520and%2520savings%2C%2520smiling%2520and%2520gathered%2520in%2520a%2520community%2520setting.%2520They%2520are%2520dressed%2520in%2520modern%2520clothing%2520with%2520some%2520traditional%2520elements.%2520The%2520scene%2520shows%2520collaboration%2520and%2520financial%2520empowerment%2520with%2520visible%2520mobile%2520screens%2520displaying%2520a%2520savings%2520app.%2520Natural%2520lighting%2520with%2520warm%2520tones.&width=600&height=600&seq=hero-image&orientation=squarish" alt="African community using M-Chama" class="rounded-2xl shadow-2xl max-w-full h-auto object-cover">
+      </div>
+    </div>
+  </div>
+</section>
+<!-- Stats Section -->
+<section class="bg-white py-12">
+  <div class="container mx-auto px-4">
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
+      <div class="p-6 rounded-lg">
+        <p class="text-4xl font-bold text-primary mb-2">5M+</p>
+        <p class="text-gray-600">Active Users</p>
+      </div>
+      <div class="p-6 rounded-lg">
+        <p class="text-4xl font-bold text-primary mb-2">250K+</p>
+        <p class="text-gray-600">Savings Groups</p>
+      </div>
+      <div class="p-6 rounded-lg">
+        <p class="text-4xl font-bold text-primary mb-2">$75M+</p>
+        <p class="text-gray-600">Total Savings</p>
+      </div>
+      <div class="p-6 rounded-lg">
+        <p class="text-4xl font-bold text-primary mb-2">98%</p>
+        <p class="text-gray-600">Satisfaction Rate</p>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- Features Section -->
+<section id="features" class="py-20 bg-gray-50">
+  <div class="container mx-auto px-4">
+    <div class="text-center mb-16">
+      <h2 class="text-3xl md:text-4xl font-bold mb-4">Powerful Features for Community Savings</h2>
+      <p class="text-lg text-gray-600 max-w-2xl mx-auto">
+        M-Chama combines traditional community savings practices with modern digital technology to create a seamless experience.
+      </p>
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      <!-- Feature 1 -->
+      <div class="feature-card bg-white p-8 rounded-xl shadow-md transition duration-300 relative overflow-hidden">
+        <div class="absolute top-0 right-0 w-24 h-24 bg-primary opacity-10 rounded-bl-full"></div>
+        <div class="w-16 h-16 flex items-center justify-center bg-primary/10 rounded-lg mb-6">
+          <i class="ri-group-line text-primary ri-2x"></i>
+        </div>
+        <h3 class="text-xl font-semibold mb-3">Create & Join Savings Groups</h3>
+        <p class="text-gray-600">
+          Easily create new savings groups or join existing ones. Set group rules, contribution schedules, and membership requirements.
+        </p>
+      </div>
+      <!-- Feature 2 -->
+      <div class="feature-card bg-white p-8 rounded-xl shadow-md transition duration-300 relative overflow-hidden">
+        <div class="absolute top-0 right-0 w-24 h-24 bg-primary opacity-10 rounded-bl-full"></div>
+        <div class="w-16 h-16 flex items-center justify-center bg-primary/10 rounded-lg mb-6">
+          <i class="ri-calendar-check-line text-primary ri-2x"></i>
+        </div>
+        <h3 class="text-xl font-semibold mb-3">Schedule Contributions</h3>
+        <p class="text-gray-600">
+          Set up regular contribution schedules - weekly, bi-weekly, or monthly. Track contribution history and upcoming payments.
+        </p>
+      </div>
+      <!-- Feature 3 -->
+      <div class="feature-card bg-white p-8 rounded-xl shadow-md transition duration-300 relative overflow-hidden">
+        <div class="absolute top-0 right-0 w-24 h-24 bg-primary opacity-10 rounded-bl-full"></div>
+        <div class="w-16 h-16 flex items-center justify-center bg-primary/10 rounded-lg mb-6">
+          <i class="ri-message-2-line text-primary ri-2x"></i>
+        </div>
+        <h3 class="text-xl font-semibold mb-3">SMS Payment Reminders</h3>
+        <p class="text-gray-600">
+          Never miss a payment with automated SMS reminders. Get notified about upcoming contributions and group activities.
+        </p>
+      </div>
+      <!-- Feature 4 -->
+      <div class="feature-card bg-white p-8 rounded-xl shadow-md transition duration-300 relative overflow-hidden">
+        <div class="absolute top-0 right-0 w-24 h-24 bg-secondary opacity-10 rounded-bl-full"></div>
+        <div class="w-16 h-16 flex items-center justify-center bg-secondary/10 rounded-lg mb-6">
+          <i class="ri-money-dollar-circle-line text-secondary ri-2x"></i>
+        </div>
+        <h3 class="text-xl font-semibold mb-3">M-PESA Integration</h3>
+        <p class="text-gray-600">
+          Seamlessly connect with M-PESA for easy deposits and withdrawals. Secure transactions with real-time confirmation.
+        </p>
+      </div>
+      <!-- Feature 5 -->
+      <div class="feature-card bg-white p-8 rounded-xl shadow-md transition duration-300 relative overflow-hidden">
+        <div class="absolute top-0 right-0 w-24 h-24 bg-secondary opacity-10 rounded-bl-full"></div>
+        <div class="w-16 h-16 flex items-center justify-center bg-secondary/10 rounded-lg mb-6">
+          <i class="ri-hand-coin-line text-secondary ri-2x"></i>
+        </div>
+        <h3 class="text-xl font-semibold mb-3">Group Loan Management</h3>
+        <p class="text-gray-600">
+          Manage group loans with customizable terms. Track loan applications, approvals, repayments, and interest calculations.
+        </p>
+      </div>
+      <!-- Feature 6 -->
+      <div class="feature-card bg-white p-8 rounded-xl shadow-md transition duration-300 relative overflow-hidden">
+        <div class="absolute top-0 right-0 w-24 h-24 bg-secondary opacity-10 rounded-bl-full"></div>
+        <div class="w-16 h-16 flex items-center justify-center bg-secondary/10 rounded-lg mb-6">
+          <i class="ri-bank-card-line text-secondary ri-2x"></i>
+        </div>
+        <h3 class="text-xl font-semibold mb-3">Instant Withdrawals</h3>
+        <p class="text-gray-600">
+          Access your funds when you need them with instant withdrawals to your M-PESA account. No delays, no paperwork.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- How It Works Section -->
+<section id="how-it-works" class="py-20 bg-white">
+  <div class="container mx-auto px-4">
+    <div class="text-center mb-16">
+      <h2 class="text-3xl md:text-4xl font-bold mb-4">How M-Chama Works</h2>
+      <p class="text-lg text-gray-600 max-w-2xl mx-auto">
+        Get started with M-Chama in just a few simple steps and transform how your community saves together.
+      </p>
+    </div>
+    <div class="max-w-4xl mx-auto">
+      <!-- Step 1 -->
+      <div class="flex flex-col md:flex-row mb-16 relative">
+        <div class="hidden md:block w-24 flex-shrink-0"></div>
+        <div class="md:ml-8 relative timeline-dot timeline-line">
+          <div class="bg-white p-6 rounded-xl shadow-md">
+            <div class="flex flex-col md:flex-row items-start md:items-center mb-4">
+              <div class="bg-primary text-white w-12 h-12 rounded-full flex items-center justify-center mb-4 md:mb-0 md:mr-4 flex-shrink-0">
+                <span class="font-bold">1</span>
+              </div>
+              <h3 class="text-xl font-semibold">Download & Register</h3>
+            </div>
+            <p class="text-gray-600 mb-6">
+              Download the M-Chama app from Google Play Store or App Store. Register using your phone number and verify with M-PESA.
+            </p>
+            <div class="flex justify-center">
+              <img src="https://readdy.ai/api/search-image?query=African%2520person%2520holding%2520smartphone%2520with%2520visible%2520screen%2520showing%2520a%2520mobile%2520banking%2520registration%2520page.%2520The%2520app%2520interface%2520is%2520clean%2520and%2520modern%2520with%2520green%2520and%2520red%2520accents.%2520The%2520person%2520is%2520smiling%2520and%2520wearing%2520modern%2520casual%2520clothing.%2520Background%2520shows%2520a%2520bright%2C%2520airy%2520indoor%2520setting.&width=400&height=300&seq=step1&orientation=landscape" alt="Download and Register" class="rounded-lg shadow-md max-w-full h-auto">
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Step 2 -->
+      <div class="flex flex-col md:flex-row mb-16 relative">
+        <div class="hidden md:block w-24 flex-shrink-0"></div>
+        <div class="md:ml-8 relative timeline-dot timeline-line">
+          <div class="bg-white p-6 rounded-xl shadow-md">
+            <div class="flex flex-col md:flex-row items-start md:items-center mb-4">
+              <div class="bg-primary text-white w-12 h-12 rounded-full flex items-center justify-center mb-4 md:mb-0 md:mr-4 flex-shrink-0">
+                <span class="font-bold">2</span>
+              </div>
+              <h3 class="text-xl font-semibold">Create or Join a Group</h3>
+            </div>
+            <p class="text-gray-600 mb-6">
+              Start your own savings group or join an existing one using an invitation code. Set group rules and contribution amounts.
+            </p>
+            <div class="flex justify-center">
+              <img src="https://readdy.ai/api/search-image?query=Group%2520of%2520diverse%2520African%2520people%2520gathered%2520around%2520a%2520smartphone%2C%2520looking%2520at%2520a%2520savings%2520group%2520creation%2520screen.%2520The%2520app%2520interface%2520shows%2520form%2520fields%2520for%2520group%2520name%2C%2520contribution%2520amount%2C%2520and%2520member%2520settings.%2520People%2520are%2520engaged%2520and%2520pointing%2520at%2520the%2520screen.%2520Bright%2C%2520natural%2520lighting.&width=400&height=300&seq=step2&orientation=landscape" alt="Create or Join a Group" class="rounded-lg shadow-md max-w-full h-auto">
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Step 3 -->
+      <div class="flex flex-col md:flex-row mb-16 relative">
+        <div class="hidden md:block w-24 flex-shrink-0"></div>
+        <div class="md:ml-8 relative timeline-dot timeline-line">
+          <div class="bg-white p-6 rounded-xl shadow-md">
+            <div class="flex flex-col md:flex-row items-start md:items-center mb-4">
+              <div class="bg-primary text-white w-12 h-12 rounded-full flex items-center justify-center mb-4 md:mb-0 md:mr-4 flex-shrink-0">
+                <span class="font-bold">3</span>
+              </div>
+              <h3 class="text-xl font-semibold">Make Contributions</h3>
+            </div>
+            <p class="text-gray-600 mb-6">
+              Contribute to your group savings using M-PESA. Set up automatic payments or make manual contributions as needed.
+            </p>
+            <div class="flex justify-center">
+              <img src="https://readdy.ai/api/search-image?query=Close-up%2520of%2520African%2520hands%2520holding%2520a%2520smartphone%2520displaying%2520an%2520M-PESA%2520payment%2520screen%2520integrated%2520with%2520a%2520savings%2520app.%2520The%2520screen%2520shows%2520payment%2520details%2C%2520amount%2C%2520and%2520confirmation%2520button.%2520The%2520interface%2520has%2520green%2520and%2520red%2520elements%2520representing%2520Safaricom%2520and%2520M-PESA%2520branding.&width=400&height=300&seq=step3&orientation=landscape" alt="Make Contributions" class="rounded-lg shadow-md max-w-full h-auto">
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Step 4 -->
+      <div class="flex flex-col md:flex-row relative">
+        <div class="hidden md:block w-24 flex-shrink-0"></div>
+        <div class="md:ml-8 relative timeline-dot">
+          <div class="bg-white p-6 rounded-xl shadow-md">
+            <div class="flex flex-col md:flex-row items-start md:items-center mb-4">
+              <div class="bg-primary text-white w-12 h-12 rounded-full flex items-center justify-center mb-4 md:mb-0 md:mr-4 flex-shrink-0">
+                <span class="font-bold">4</span>
+              </div>
+              <h3 class="text-xl font-semibold">Manage Group Finances</h3>
+            </div>
+            <p class="text-gray-600 mb-6">
+              Track group savings, apply for loans, and withdraw funds directly to your M-PESA account when needed.
+            </p>
+            <div class="flex justify-center">
+              <img src="https://readdy.ai/api/search-image?query=African%2520person%2520looking%2520at%2520smartphone%2520displaying%2520a%2520financial%2520dashboard%2520with%2520savings%2520graphs%2C%2520loan%2520status%2C%2520and%2520withdrawal%2520options.%2520The%2520interface%2520is%2520clean%2520with%2520data%2520visualizations%2520in%2520green%2520and%2520red%2520colors.%2520The%2520person%2520is%2520in%2520a%2520modern%2520office%2520or%2520home%2520setting.&width=400&height=300&seq=step4&orientation=landscape" alt="Manage Group Finances" class="rounded-lg shadow-md max-w-full h-auto">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- Testimonials Section -->
+<section id="testimonials" class="py-20 bg-gray-50">
+  <div class="container mx-auto px-4">
+    <div class="text-center mb-16">
+      <h2 class="text-3xl md:text-4xl font-bold mb-4">Success Stories</h2>
+      <p class="text-lg text-gray-600 max-w-2xl mx-auto">
+        Hear from communities across Africa who have transformed their savings experience with M-Chama.
+      </p>
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      <!-- Testimonial 1 -->
+      <div class="bg-white p-8 rounded-xl shadow-md">
+        <div class="flex items-center mb-6">
+          <div class="text-yellow-400 flex">
+            <i class="ri-star-fill ri-lg"></i>
+            <i class="ri-star-fill ri-lg"></i>
+            <i class="ri-star-fill ri-lg"></i>
+            <i class="ri-star-fill ri-lg"></i>
+            <i class="ri-star-fill ri-lg"></i>
+          </div>
+        </div>
+        <p class="text-gray-600 mb-6">
+          "M-Chama has revolutionized how our women's group manages our savings. The transparency and ease of use have increased trust among members, and we've grown our collective savings by 40% in just six months."
+        </p>
+        <div class="flex items-center">
+          <div class="w-12 h-12 rounded-full bg-gray-200 flex items-center justify-center mr-4">
+            <i class="ri-user-3-fill text-gray-500 ri-lg"></i>
+          </div>
+          <div>
+            <h4 class="font-semibold">Grace Mwangi</h4>
+            <p class="text-sm text-gray-500">Chairperson, Umoja Women's Group</p>
+          </div>
+        </div>
+      </div>
+      <!-- Testimonial 2 -->
+      <div class="bg-white p-8 rounded-xl shadow-md">
+        <div class="flex items-center mb-6">
+          <div class="text-yellow-400 flex">
+            <i class="ri-star-fill ri-lg"></i>
+            <i class="ri-star-fill ri-lg"></i>
+            <i class="ri-star-fill ri-lg"></i>
+            <i class="ri-star-fill ri-lg"></i>
+            <i class="ri-star-fill ri-lg"></i>
+          </div>
+        </div>
+        <p class="text-gray-600 mb-6">
+          "As a small business owner, I joined a traders' savings group on M-Chama. The loan feature helped me expand my shop when I needed capital. The SMS reminders ensure I never miss a payment."
+        </p>
+        <div class="flex items-center">
+          <div class="w-12 h-12 rounded-full bg-gray-200 flex items-center justify-center mr-4">
+            <i class="ri-user-3-fill text-gray-500 ri-lg"></i>
+          </div>
+          <div>
+            <h4 class="font-semibold">Daniel Ochieng</h4>
+            <p class="text-sm text-gray-500">Owner, Nairobi Market Stall</p>
+          </div>
+        </div>
+      </div>
+      <!-- Testimonial 3 -->
+      <div class="bg-white p-8 rounded-xl shadow-md">
+        <div class="flex items-center mb-6">
+          <div class="text-yellow-400 flex">
+            <i class="ri-star-fill ri-lg"></i>
+            <i class="ri-star-fill ri-lg"></i>
+            <i class="ri-star-fill ri-lg"></i>
+            <i class="ri-star-fill ri-lg"></i>
+            <i class="ri-star-half-fill ri-lg"></i>
+          </div>
+        </div>
+        <p class="text-gray-600 mb-6">
+          "Our farming cooperative uses M-Chama to pool resources for equipment purchases. The M-PESA integration makes it easy for all members to contribute, even those in remote areas without banks."
+        </p>
+        <div class="flex items-center">
+          <div class="w-12 h-12 rounded-full bg-gray-200 flex items-center justify-center mr-4">
+            <i class="ri-user-3-fill text-gray-500 ri-lg"></i>
+          </div>
+          <div>
+            <h4 class="font-semibold">Amina Ibrahim</h4>
+            <p class="text-sm text-gray-500">Secretary, Kilimo Farmers Cooperative</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Success Metrics -->
+    <div class="mt-20">
+      <h3 class="text-2xl font-bold text-center mb-12">Impact Across Communities</h3>
+      <div class="bg-white rounded-xl shadow-md p-6 h-80" id="chart-container"></div>
+    </div>
+  </div>
+</section>
+<!-- Benefits Section -->
+<section id="benefits" class="py-20 bg-white">
+  <div class="container mx-auto px-4">
+    <div class="flex flex-col lg:flex-row items-center">
+      <div class="lg:w-1/2 mb-12 lg:mb-0 lg:pr-12">
+        <h2 class="text-3xl md:text-4xl font-bold mb-6">Why Choose M-Chama?</h2>
+        <p class="text-lg text-gray-600 mb-8">
+          M-Chama combines traditional community values with modern technology to create a powerful savings solution backed by Safaricom and M-PESA.
+        </p>
+        <div class="space-y-6">
+          <div class="flex">
+            <div class="w-12 h-12 flex items-center justify-center bg-primary/10 rounded-full mr-4 flex-shrink-0">
+              <i class="ri-shield-check-line text-primary ri-lg"></i>
+            </div>
+            <div>
+              <h3 class="text-xl font-semibold mb-2">Enhanced Security</h3>
+              <p class="text-gray-600">
+                Bank-grade encryption and Safaricom's trusted infrastructure keep your group's funds secure at all times.
+              </p>
+            </div>
+          </div>
+          <div class="flex">
+            <div class="w-12 h-12 flex items-center justify-center bg-primary/10 rounded-full mr-4 flex-shrink-0">
+              <i class="ri-eye-line text-primary ri-lg"></i>
+            </div>
+            <div>
+              <h3 class="text-xl font-semibold mb-2">Complete Transparency</h3>
+              <p class="text-gray-600">
+                All members can view contribution history, loan status, and group finances in real-time.
+              </p>
+            </div>
+          </div>
+          <div class="flex">
+            <div class="w-12 h-12 flex items-center justify-center bg-primary/10 rounded-full mr-4 flex-shrink-0">
+              <i class="ri-smartphone-line text-primary ri-lg"></i>
+            </div>
+            <div>
+              <h3 class="text-xl font-semibold mb-2">Mobile-First Experience</h3>
+              <p class="text-gray-600">
+                Access your savings group anytime, anywhere - even in areas with limited connectivity.
+              </p>
+            </div>
+          </div>
+          <div class="flex">
+            <div class="w-12 h-12 flex items-center justify-center bg-primary/10 rounded-full mr-4 flex-shrink-0">
+              <i class="ri-community-line text-primary ri-lg"></i>
+            </div>
+            <div>
+              <h3 class="text-xl font-semibold mb-2">Community Empowerment</h3>
+              <p class="text-gray-600">
+                Build financial resilience within your community while preserving traditional savings practices.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="lg:w-1/2">
+        <div class="relative">
+          <div class="absolute -top-6 -left-6 w-64 h-64 bg-primary/5 rounded-full"></div>
+          <div class="absolute -bottom-6 -right-6 w-64 h-64 bg-secondary/5 rounded-full"></div>
+          <img src="img/rhino.png"
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- Partners Section -->
+<section class="py-16 bg-gray-50">
+  <div class="container mx-auto px-4">
+    <h2 class="text-2xl font-bold text-center mb-12">Trusted Partners</h2>
+    <div class="flex flex-wrap justify-center items-center gap-12">
+      <div class="flex flex-col items-center">
+        <div class="w-16 h-16 flex items-center justify-center">
+          <img src="img/safaricom.png" alt="safaricom logo">
+        </div>
+        <span class="mt-2 font-medium">Safaricom</span>
+      </div>
+      <div class="flex flex-col items-center">
+        <div class="w-16 h-16 flex items-center justify-center">
+          <img src="img/mpesa.png" alt="mpesa logo">
+        </div>
+        <span class="mt-2 font-medium">M-PESA</span>
+      </div>
+      <div class="flex flex-col items-center">
+        <div class="w-16 h-16 flex items-center justify-center">
+          <img src="img/kcb.png" alt="">
+        </div>
+        <span class="mt-2 font-medium">Kenya Commercial Bank</span>
+      </div>
+      <div class="flex flex-col items-center">
+        <div class="w-16 h-16 flex items-center justify-center">
+          <img src="img/mbadi.png" alt="kcb logo">
+        </div>
+        <span class="mt-2 font-medium">Ministry of Finance</span>
+      </div>
+      <div class="flex flex-col items-center">
+        <div class="w-16 h-16 flex items-center justify-center">
+          <img src="img/adb.png" alt="">
+        </div>
+        <span class="mt-2 font-medium">African Development Bank</span>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- CTA Section -->
+<section class="py-20 relative">
+  <div class="absolute inset-0 bg-gradient-to-r from-primary to-secondary opacity-90"></div>
+  <div class="container mx-auto px-4 relative z-10">
+    <div class="max-w-4xl mx-auto text-center">
+      <h2 class="text-3xl md:text-4xl font-bold text-white mb-6">Ready to Transform Your Community Savings?</h2>
+      <p class="text-xl text-white/90 mb-10">
+        Join thousands of communities across Africa who are already saving smarter with M-Chama.
+      </p>
+      <div class="flex flex-col sm:flex-row justify-center gap-6 mb-12">
+        <button class="bg-white text-primary px-8 py-4 !rounded-button font-semibold hover:bg-gray-100 transition flex items-center justify-center whitespace-nowrap">
+          <i class="ri-google-play-fill mr-2 ri-lg"></i>
+          Google Play
+        </button>
+        <button class="bg-white text-primary px-8 py-4 !rounded-button font-semibold hover:bg-gray-100 transition flex items-center justify-center whitespace-nowrap">
+          <i class="ri-apple-fill mr-2 ri-lg"></i>
+          App Store
+        </button>
+        <button class="bg-white/20 text-white border border-white px-8 py-4 !rounded-button font-semibold hover:bg-white/30 transition flex items-center justify-center whitespace-nowrap">
+          <i class="ri-whatsapp-fill mr-2 ri-lg"></i>
+          WhatsApp Support
+        </button>
+      </div>
+      <div class="flex justify-center">
+        <div class="bg-white p-4 rounded-xl flex items-center">
+          <div class="mr-6">
+            <div class="w-24 h-24 bg-gray-200 rounded flex items-center justify-center">
+              <i class="ri-qr-code-line text-gray-700 ri-3x"></i>
+            </div>
+          </div>
+          <div class="text-left">
+            <h3 class="font-semibold text-gray-800 mb-2">Scan to Download</h3>
+            <p class="text-gray-600 text-sm mb-2">
+              Scan this QR code with your phone camera to download the M-Chama app directly.
+            </p>
+            <div class="flex items-center">
+              <div class="w-5 h-5 flex items-center justify-center mr-1">
+                <i class="ri-information-line text-primary"></i>
+              </div>
+              <span class="text-xs text-gray-500">Works with Android & iOS devices</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- Footer -->
+<footer class="bg-gray-900 text-white pt-16 pb-8">
+  <div class="container mx-auto px-4">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-12">
+      <!-- Company Info -->
+      <div>
+        <div class="flex items-center mb-6">
+          <span class="text-3xl font-['Montserrat'] font-bold mr-2"><span class="text-secondary">M</span><span class="text-white">-Chama</span></span>
+        </div>
+        <p class="text-gray-400 mb-6">
+          Empowering communities across Africa with digital savings solutions that preserve traditional values while embracing modern technology.
+        </p>
+        <div class="flex space-x-4">
+          <a href="#" class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center hover:bg-primary transition">
+            <i class="ri-facebook-fill text-white"></i>
+          </a>
+          <a href="#" class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center hover:bg-primary transition">
+            <i class="ri-twitter-x-fill text-white"></i>
+          </a>
+          <a href="#" class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center hover:bg-primary transition">
+            <i class="ri-instagram-fill text-white"></i>
+          </a>
+          <a href="#" class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center hover:bg-primary transition">
+            <i class="ri-linkedin-fill text-white"></i>
+          </a>
+        </div>
+      </div>
+      <!-- Quick Links -->
+      <div>
+        <h3 class="text-lg font-semibold mb-6">Quick Links</h3>
+        <ul class="space-y-3">
+          <li><a href="#" class="text-gray-400 hover:text-white transition">About Us</a></li>
+          <li><a href="#" class="text-gray-400 hover:text-white transition">Features</a></li>
+          <li><a href="#" class="text-gray-400 hover:text-white transition">How It Works</a></li>
+          <li><a href="#" class="text-gray-400 hover:text-white transition">Testimonials</a></li>
+          <li><a href="#" class="text-gray-400 hover:text-white transition">Contact Us</a></li>
+          <li><a href="#" class="text-gray-400 hover:text-white transition">Blog</a></li>
+        </ul>
+      </div>
+      <!-- Support -->
+      <div>
+        <h3 class="text-lg font-semibold mb-6">Support</h3>
+        <ul class="space-y-3">
+          <li><a href="#" class="text-gray-400 hover:text-white transition">Help Center</a></li>
+          <li><a href="#" class="text-gray-400 hover:text-white transition">FAQs</a></li>
+          <li><a href="#" class="text-gray-400 hover:text-white transition">Privacy Policy</a></li>
+          <li><a href="#" class="text-gray-400 hover:text-white transition">Terms of Service</a></li>
+          <li><a href="#" class="text-gray-400 hover:text-white transition">Security</a></li>
+        </ul>
+      </div>
+      <!-- Newsletter -->
+      <div>
+        <h3 class="text-lg font-semibold mb-6">Stay Updated</h3>
+        <p class="text-gray-400 mb-4">
+          Subscribe to our newsletter for the latest updates and features.
+        </p>
+        <form class="mb-4">
+          <div class="flex">
+            <input type="email" placeholder="Your email address" class="bg-gray-800 text-white px-4 py-3 !rounded-l-button w-full border-none focus:ring-2 focus:ring-primary">
+            <button type="submit" class="bg-primary text-white px-4 py-3 !rounded-r-button font-medium hover:bg-opacity-90 transition whitespace-nowrap">
+              Subscribe
+            </button>
+          </div>
+        </form>
+        <div class="flex items-center">
+          <label class="custom-checkbox text-gray-400 text-sm">
+            <input type="checkbox">
+            <span class="checkmark"></span>
+            I agree to receive marketing emails
+          </label>
+        </div>
+      </div>
+    </div>
+    <div class="pt-8 border-t border-gray-800 flex flex-col md:flex-row justify-between items-center">
+      <p class="text-gray-500 text-sm mb-4 md:mb-0">
+        © 2025 M-Chama. All rights reserved. Powered by Safaricom & M-PESA.
+      </p>
+      <div class="flex items-center space-x-6">
+        <div class="flex items-center">
+          <div class="w-6 h-6 flex items-center justify-center mr-2">
+            <i class="ri-visa-fill text-gray-400 ri-lg"></i>
+          </div>
+          <span class="text-gray-400 text-sm">Visa</span>
+        </div>
+        <div class="flex items-center">
+          <div class="w-6 h-6 flex items-center justify-center mr-2">
+            <i class="ri-mastercard-fill text-gray-400 ri-lg"></i>
+          </div>
+          <span class="text-gray-400 text-sm">Mastercard</span>
+        </div>
+        <div class="flex items-center">
+          <div class="w-6 h-6 flex items-center justify-center mr-2">
+            <i class="ri-paypal-fill text-gray-400 ri-lg"></i>
+          </div>
+          <span class="text-gray-400 text-sm">PayPal</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+<!-- Scripts -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/echarts/5.5.0/echarts.min.js"></script>
+<script id="navigation-script">
+  document.addEventListener('DOMContentLoaded', function() {
+    const sections = document.querySelectorAll('section[id]');
+    const navLinks = document.querySelectorAll('.nav-link');
+    function smoothScroll(e) {
+      e.preventDefault();
+      const targetId = this.getAttribute('href');
+      const targetSection = document.querySelector(targetId);
+      const headerOffset = 80;
+      const elementPosition = targetSection.getBoundingClientRect().top;
+      const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: 'smooth'
+      });
+    }
+    function setActiveLink() {
+      const scrollPosition = window.scrollY;
+      sections.forEach(section => {
+        const sectionTop = section.offsetTop - 100;
+        const sectionHeight = section.offsetHeight;
+        const sectionId = section.getAttribute('id');
+        if (scrollPosition >= sectionTop && scrollPosition < sectionTop + sectionHeight) {
+          navLinks.forEach(link => {
+            link.classList.remove('text-primary');
+            if (link.getAttribute('href') === '#' + sectionId) {
+              link.classList.add('text-primary');
+            }
+          });
+        }
+      });
+    }
+    navLinks.forEach(link => link.addEventListener('click', smoothScroll));
+    window.addEventListener('scroll', setActiveLink);
+    setActiveLink();
+  });
+</script>
+<script id="chart-script">
+  document.addEventListener('DOMContentLoaded', function() {
+    const chartContainer = document.getElementById('chart-container');
+    if (!chartContainer) return;
+    const chart = echarts.init(chartContainer);
+    const option = {
+      animation: false,
+      tooltip: {
+        trigger: 'axis',
+        backgroundColor: 'rgba(255, 255, 255, 0.8)',
+        borderColor: '#f0f0f0',
+        textStyle: {
+          color: '#1f2937'
+        }
+      },
+      legend: {
+        data: ['Active Groups', 'Total Savings (USD)', 'Loans Disbursed'],
+        bottom: 0,
+        textStyle: {
+          color: '#1f2937'
+        }
+      },
+      grid: {
+        left: '3%',
+        right: '4%',
+        bottom: '15%',
+        top: '3%',
+        containLabel: true
+      },
+      xAxis: {
+        type: 'category',
+        boundaryGap: false,
+        data: ['2020', '2021', '2022', '2023', '2024', '2025'],
+        axisLine: {
+          lineStyle: {
+            color: '#d1d5db'
+          }
+        },
+        axisLabel: {
+          color: '#1f2937'
+        }
+      },
+      yAxis: {
+        type: 'value',
+        axisLine: {
+          lineStyle: {
+            color: '#d1d5db'
+          }
+        },
+        axisLabel: {
+          color: '#1f2937'
+        },
+        splitLine: {
+          lineStyle: {
+            color: '#f3f4f6'
+          }
+        }
+      },
+      series: [
+        {
+          name: 'Active Groups',
+          type: 'line',
+          smooth: true,
+          lineStyle: {
+            width: 3,
+            color: 'rgba(87, 181, 231, 1)'
+          },
+          areaStyle: {
+            color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+              {
+                offset: 0,
+                color: 'rgba(87, 181, 231, 0.3)'
+              },
+              {
+                offset: 1,
+                color: 'rgba(87, 181, 231, 0.1)'
+              }
+            ])
+          },
+          emphasis: {
+            focus: 'series'
+          },
+          data: [50, 120, 180, 230, 250, 320]
+        },
+        {
+          name: 'Total Savings (USD)',
+          type: 'line',
+          smooth: true,
+          lineStyle: {
+            width: 3,
+            color: 'rgba(141, 211, 199, 1)'
+          },
+          areaStyle: {
+            color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+              {
+                offset: 0,
+                color: 'rgba(141, 211, 199, 0.3)'
+              },
+              {
+                offset: 1,
+                color: 'rgba(141, 211, 199, 0.1)'
+              }
+            ])
+          },
+          emphasis: {
+            focus: 'series'
+          },
+          data: [15, 25, 40, 60, 68, 75]
+        },
+        {
+          name: 'Loans Disbursed',
+          type: 'line',
+          smooth: true,
+          lineStyle: {
+            width: 3,
+            color: 'rgba(251, 191, 114, 1)'
+          },
+          areaStyle: {
+            color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+              {
+                offset: 0,
+                color: 'rgba(251, 191, 114, 0.3)'
+              },
+              {
+                offset: 1,
+                color: 'rgba(251, 191, 114, 0.1)'
+              }
+            ])
+          },
+          emphasis: {
+            focus: 'series'
+          },
+          data: [5, 12, 25, 40, 48, 60]
+        }
+      ]
+    };
+    chart.setOption(option);
+    window.addEventListener('resize', function() {
+      chart.resize();
+    });
+  });
+</script>
+</body>
+</html>

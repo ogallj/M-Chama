@@ -1,0 +1,1034 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>M-Chama: Get Started</title>
+  <script src="https://cdn.tailwindcss.com/3.4.16"></script>
+  <script>tailwind.config={theme:{extend:{colors:{primary:'#00a651',secondary:'#e42313'},borderRadius:{'none':'0px','sm':'4px',DEFAULT:'8px','md':'12px','lg':'16px','xl':'20px','2xl':'24px','3xl':'32px','full':'9999px','button':'8px'}}}}</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.min.css">
+  <style>
+    :where([class^="ri-"])::before { content: "\f3c2"; }
+    body {
+      font-family: 'Poppins', sans-serif;
+      background-color: #f9fafb;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      font-family: 'Montserrat', sans-serif;
+    }
+    input:focus, button:focus {
+      outline: none;
+      box-shadow: 0 0 0 3px rgba(0, 166, 81, 0.3);
+    }
+    input:-webkit-autofill,
+    input:-webkit-autofill:hover,
+    input:-webkit-autofill:focus {
+      -webkit-box-shadow: 0 0 0px 1000px white inset;
+    }
+    .custom-checkbox {
+      position: relative;
+      padding-left: 35px;
+      cursor: pointer;
+      user-select: none;
+    }
+    .custom-checkbox input {
+      position: absolute;
+      opacity: 0;
+      cursor: pointer;
+      height: 0;
+      width: 0;
+    }
+    .checkmark {
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 24px;
+      width: 24px;
+      background-color: #fff;
+      border: 2px solid #e5e7eb;
+      border-radius: 4px;
+    }
+    .custom-checkbox:hover input ~ .checkmark {
+      border-color: #00a651;
+    }
+    .custom-checkbox input:checked ~ .checkmark {
+      background-color: #00a651;
+      border-color: #00a651;
+    }
+    .checkmark:after {
+      content: "";
+      position: absolute;
+      display: none;
+    }
+    .custom-checkbox input:checked ~ .checkmark:after {
+      display: block;
+    }
+    .custom-checkbox .checkmark:after {
+      left: 9px;
+      top: 5px;
+      width: 5px;
+      height: 10px;
+      border: solid white;
+      border-width: 0 2px 2px 0;
+      transform: rotate(45deg);
+    }
+    .custom-radio {
+      position: relative;
+      padding-left: 35px;
+      cursor: pointer;
+      user-select: none;
+    }
+    .custom-radio input {
+      position: absolute;
+      opacity: 0;
+      cursor: pointer;
+      height: 0;
+      width: 0;
+    }
+    .radio-mark {
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 24px;
+      width: 24px;
+      background-color: #fff;
+      border: 2px solid #e5e7eb;
+      border-radius: 50%;
+    }
+    .custom-radio:hover input ~ .radio-mark {
+      border-color: #00a651;
+    }
+    .custom-radio input:checked ~ .radio-mark {
+      background-color: #fff;
+      border-color: #00a651;
+    }
+    .radio-mark:after {
+      content: "";
+      position: absolute;
+      display: none;
+    }
+    .custom-radio input:checked ~ .radio-mark:after {
+      display: block;
+    }
+    .custom-radio .radio-mark:after {
+      top: 4px;
+      left: 4px;
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: #00a651;
+    }
+    .toggle-switch {
+      position: relative;
+      display: inline-block;
+      width: 60px;
+      height: 30px;
+    }
+    .toggle-switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+    .toggle-slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: #e5e7eb;
+      transition: .4s;
+      border-radius: 34px;
+    }
+    .toggle-slider:before {
+      position: absolute;
+      content: "";
+      height: 22px;
+      width: 22px;
+      left: 4px;
+      bottom: 4px;
+      background-color: white;
+      transition: .4s;
+      border-radius: 50%;
+    }
+    input:checked + .toggle-slider {
+      background-color: #00a651;
+    }
+    input:checked + .toggle-slider:before {
+      transform: translateX(30px);
+    }
+    .step-indicator {
+      display: flex;
+      justify-content: space-between;
+      position: relative;
+    }
+    .step-indicator::before {
+      content: '';
+      position: absolute;
+      top: 16px;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background-color: #e5e7eb;
+      z-index: 0;
+    }
+    .step-indicator .step {
+      position: relative;
+      z-index: 1;
+    }
+    .step-indicator .step.active .step-icon {
+      background-color: #00a651;
+      color: white;
+    }
+    .step-indicator .step.completed .step-icon {
+      background-color: #00a651;
+      color: white;
+    }
+    .step-indicator .step.completed .step-icon::after {
+      content: '✓';
+      position: absolute;
+      font-size: 14px;
+    }
+    .step-indicator .step .step-icon {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      background-color: white;
+      border: 2px solid #e5e7eb;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 600;
+      color: #6b7280;
+    }
+    .step-indicator .step.active .step-label {
+      color: #00a651;
+      font-weight: 600;
+    }
+  </style>
+</head>
+<body>
+<!-- Header -->
+<header class="bg-white shadow-sm w-full py-4">
+  <div class="container mx-auto px-4 flex items-center justify-between">
+    <div class="flex items-center">
+      <a href="index.html" data-readdy="true" class="flex items-center">
+        <div class="w-8 h-8 flex items-center justify-center mr-2">
+          <i class="ri-arrow-left-line text-gray-700 ri-lg"></i>
+        </div>
+        <span class="text-gray-700">Back to Home</span>
+      </a>
+    </div>
+    <div class="flex items-center">
+      <span class="text-2xl font-['Montserrat'] font-bold"><span class="text-secondary">M</span><span class="text-primary">-Chama</span></span>
+    </div>
+    <div class="w-8 h-8 opacity-0">
+      <!-- Empty div for balance -->
+    </div>
+  </div>
+</header>
+<!-- Main Content -->
+<main class="container mx-auto px-4 py-8 max-w-4xl">
+  <div class="text-center mb-10">
+    <h1 class="text-3xl font-bold mb-3">Get Started with M-Chama</h1>
+    <p class="text-gray-600 max-w-2xl mx-auto">Join thousands of communities across Africa who are already saving smarter with our digital community savings platform.</p>
+  </div>
+  <!-- Step Indicator -->
+  <div class="step-indicator mb-12 max-w-2xl mx-auto px-8">
+    <div class="step active">
+      <div class="step-icon mx-auto mb-2">1</div>
+      <div class="step-label text-sm text-center">Account</div>
+    </div>
+    <div class="step">
+      <div class="step-icon mx-auto mb-2">2</div>
+      <div class="step-label text-sm text-center">Verification</div>
+    </div>
+    <div class="step">
+      <div class="step-icon mx-auto mb-2">3</div>
+      <div class="step-label text-sm text-center">Group</div>
+    </div>
+    <div class="step">
+      <div class="step-icon mx-auto mb-2">4</div>
+      <div class="step-label text-sm text-center">Complete</div>
+    </div>
+  </div>
+  <!-- Account Creation Form -->
+  <div class="bg-white rounded-xl shadow-md p-8 mb-8">
+    <div class="flex justify-center mb-6">
+      <div class="inline-flex rounded-full p-1 bg-gray-100">
+        <button id="signup-tab" class="px-6 py-2 !rounded-full bg-primary text-white font-medium whitespace-nowrap">Sign Up</button>
+        <button id="login-tab" class="px-6 py-2 !rounded-full text-gray-700 font-medium whitespace-nowrap">Login</button>
+      </div>
+    </div>
+    <!-- Sign Up Form -->
+    <div id="signup-form" class="max-w-md mx-auto">
+      <div class="mb-6">
+        <label for="fullname" class="block text-sm font-medium text-gray-700 mb-1">Full Name</label>
+        <div class="relative">
+          <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+            <i class="ri-user-3-line text-gray-400"></i>
+          </div>
+          <input type="text" id="fullname" class="w-full pl-10 pr-4 py-3 bg-white border border-gray-300 rounded-lg text-gray-700" placeholder="Enter your full name">
+        </div>
+      </div>
+      <div class="mb-6">
+        <label for="phone" class="block text-sm font-medium text-gray-700 mb-1">Phone Number</label>
+        <div class="relative">
+          <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+            <i class="ri-phone-line text-gray-400"></i>
+          </div>
+          <input type="tel" id="phone" class="w-full pl-10 pr-4 py-3 bg-white border border-gray-300 rounded-lg text-gray-700" placeholder="+254 7XX XXX XXX">
+        </div>
+        <p class="mt-1 text-xs text-gray-500">We'll send a verification code to this number</p>
+      </div>
+      <div class="mb-6">
+        <label for="email" class="block text-sm font-medium text-gray-700 mb-1">Email Address</label>
+        <div class="relative">
+          <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+            <i class="ri-mail-line text-gray-400"></i>
+          </div>
+          <input type="email" id="email" class="w-full pl-10 pr-4 py-3 bg-white border border-gray-300 rounded-lg text-gray-700" placeholder="Enter your email address">
+        </div>
+      </div>
+      <div class="mb-6">
+        <label for="password" class="block text-sm font-medium text-gray-700 mb-1">Password</label>
+        <div class="relative">
+          <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+            <i class="ri-lock-line text-gray-400"></i>
+          </div>
+          <input type="password" id="password" class="w-full pl-10 pr-4 py-3 bg-white border border-gray-300 rounded-lg text-gray-700" placeholder="Create a secure password">
+          <div class="absolute inset-y-0 right-0 pr-3 flex items-center cursor-pointer">
+            <i class="ri-eye-off-line text-gray-400 toggle-password"></i>
+          </div>
+        </div>
+        <p class="mt-1 text-xs text-gray-500">Must be at least 8 characters with numbers and special characters</p>
+      </div>
+      <div class="mb-6">
+        <label class="custom-checkbox text-gray-700">
+          <input type="checkbox" id="terms">
+          <span class="checkmark"></span>
+          I agree to the <a href="#" class="text-primary">Terms of Service</a> and <a href="#" class="text-primary">Privacy Policy</a>
+        </label>
+      </div>
+      <button class="w-full bg-primary text-white py-3 !rounded-button font-medium hover:bg-opacity-90 transition whitespace-nowrap mb-4">
+        Create Account
+      </button>
+      <div class="relative flex items-center justify-center mb-6">
+        <div class="border-t border-gray-300 absolute w-full"></div>
+        <span class="bg-white px-4 text-sm text-gray-500 relative">or sign up with</span>
+      </div>
+      <div class="grid grid-cols-2 gap-4 mb-6">
+        <button class="flex items-center justify-center py-3 px-4 border border-gray-300 rounded-lg hover:bg-gray-50 whitespace-nowrap">
+          <div class="w-5 h-5 flex items-center justify-center mr-2">
+            <i class="ri-google-fill text-red-500"></i>
+          </div>
+          Google
+        </button>
+        <button class="flex items-center justify-center py-3 px-4 border border-gray-300 rounded-lg hover:bg-gray-50 whitespace-nowrap">
+          <div class="w-5 h-5 flex items-center justify-center mr-2">
+            <i class="ri-facebook-fill text-blue-600"></i>
+          </div>
+          Facebook
+        </button>
+      </div>
+      <p class="text-center text-gray-600 text-sm">
+        Already have an account? <button id="switch-to-login" class="text-primary font-medium">Login</button>
+      </p>
+    </div>
+    <!-- Login Form (Hidden by default) -->
+    <div id="login-form" class="max-w-md mx-auto hidden">
+      <div class="flex justify-center mb-6">
+        <div class="inline-flex rounded-full p-1 bg-gray-100">
+          <button id="email-login-tab" class="px-6 py-2 !rounded-full bg-primary text-white font-medium whitespace-nowrap">Email</button>
+          <button id="phone-login-tab" class="px-6 py-2 !rounded-full text-gray-700 font-medium whitespace-nowrap">Phone</button>
+        </div>
+      </div>
+      <div class="mb-6 text-center">
+        <button id="try-demo" class="text-primary font-medium flex items-center mx-auto">
+          <div class="w-5 h-5 flex items-center justify-center mr-1">
+            <i class="ri-login-circle-line"></i>
+          </div>
+          Try Demo Account
+        </button>
+      </div>
+      <!-- Email Login Form -->
+      <div id="email-login-form">
+        <div class="mb-6">
+          <label for="login-email" class="block text-sm font-medium text-gray-700 mb-1">Email Address</label>
+          <div class="relative">
+            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+              <i class="ri-mail-line text-gray-400"></i>
+            </div>
+            <input type="email" id="login-email" class="w-full pl-10 pr-4 py-3 bg-white border border-gray-300 rounded-lg text-gray-700" placeholder="Enter your email address">
+          </div>
+        </div>
+        <div class="mb-4">
+          <div class="flex items-center justify-between mb-1">
+            <label for="login-password" class="block text-sm font-medium text-gray-700">Password</label>
+            <a href="#" class="text-sm text-secondary">Forgot Password?</a>
+          </div>
+          <div class="relative">
+            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+              <i class="ri-lock-line text-gray-400"></i>
+            </div>
+            <input type="password" id="login-password" class="w-full pl-10 pr-4 py-3 bg-white border border-gray-300 rounded-lg text-gray-700" placeholder="Enter your password">
+            <div class="absolute inset-y-0 right-0 pr-3 flex items-center cursor-pointer">
+              <i class="ri-eye-off-line text-gray-400 toggle-password"></i>
+            </div>
+          </div>
+        </div>
+        <div class="mb-6">
+          <label class="custom-checkbox text-gray-700">
+            <input type="checkbox" id="remember-me">
+            <span class="checkmark"></span>
+            Remember me
+          </label>
+        </div>
+      </div>
+      <!-- Phone Login Form (Hidden by default) -->
+      <div id="phone-login-form" class="hidden">
+        <div class="mb-6">
+          <label for="login-phone" class="block text-sm font-medium text-gray-700 mb-1">Phone Number</label>
+          <div class="relative">
+            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+              <i class="ri-phone-line text-gray-400"></i>
+            </div>
+            <input type="tel" id="login-phone" class="w-full pl-10 pr-4 py-3 bg-white border border-gray-300 rounded-lg text-gray-700" placeholder="+254 7XX XXX XXX">
+          </div>
+        </div>
+        <div class="mb-4">
+          <div class="flex items-center justify-between mb-1">
+            <label for="login-phone-password" class="block text-sm font-medium text-gray-700">Password</label>
+            <a href="#" class="text-sm text-secondary">Forgot Password?</a>
+          </div>
+          <div class="relative">
+            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+              <i class="ri-lock-line text-gray-400"></i>
+            </div>
+            <input type="password" id="login-phone-password" class="w-full pl-10 pr-4 py-3 bg-white border border-gray-300 rounded-lg text-gray-700" placeholder="Enter your password">
+            <div class="absolute inset-y-0 right-0 pr-3 flex items-center cursor-pointer">
+              <i class="ri-eye-off-line text-gray-400 toggle-password"></i>
+            </div>
+          </div>
+        </div>
+        <div class="mb-6">
+          <label class="custom-checkbox text-gray-700">
+            <input type="checkbox" id="remember-me-phone">
+            <span class="checkmark"></span>
+            Remember me
+          </label>
+        </div>
+      </div>
+      <button id="login-button" class="w-full bg-primary text-white py-3 !rounded-button font-medium hover:bg-opacity-90 transition whitespace-nowrap mb-4 flex items-center justify-center">
+        <span>Login</span>
+        <div class="hidden ml-2 w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+      </button>
+      <div class="relative flex items-center justify-center mb-6">
+        <div class="border-t border-gray-300 absolute w-full"></div>
+        <span class="bg-white px-4 text-sm text-gray-500 relative">or login with</span>
+      </div>
+      <div class="grid grid-cols-2 gap-4 mb-6">
+        <button class="flex items-center justify-center py-3 px-4 border border-gray-300 rounded-lg hover:bg-gray-50 whitespace-nowrap">
+          <div class="w-5 h-5 flex items-center justify-center mr-2">
+            <i class="ri-google-fill text-red-500"></i>
+          </div>
+          Google
+        </button>
+        <button class="flex items-center justify-center py-3 px-4 border border-gray-300 rounded-lg hover:bg-gray-50 whitespace-nowrap">
+          <div class="w-5 h-5 flex items-center justify-center mr-2">
+            <i class="ri-facebook-fill text-blue-600"></i>
+          </div>
+          Facebook
+        </button>
+      </div>
+      <p class="text-center text-gray-600 text-sm">
+        Don't have an account? <button id="switch-to-signup" class="text-primary font-medium">Sign Up</button>
+      </p>
+    </div>
+  </div>
+  <!-- M-PESA Verification (Hidden) -->
+  <div id="verification-step" class="bg-white rounded-xl shadow-md p-8 mb-8 hidden">
+    <div class="text-center mb-8">
+      <div class="w-20 h-20 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
+        <i class="ri-smartphone-line text-primary ri-2x"></i>
+      </div>
+      <h2 class="text-2xl font-bold mb-2">M-PESA Verification</h2>
+      <p class="text-gray-600 max-w-md mx-auto">We'll send a verification code to your M-PESA registered phone number to confirm your identity.</p>
+    </div>
+    <div class="max-w-md mx-auto">
+      <div class="mb-6">
+        <label for="mpesa-number" class="block text-sm font-medium text-gray-700 mb-1">M-PESA Phone Number</label>
+        <div class="relative">
+          <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+            <i class="ri-phone-line text-gray-400"></i>
+          </div>
+          <input type="tel" id="mpesa-number" class="w-full pl-10 pr-4 py-3 bg-white border border-gray-300 rounded-lg text-gray-700" value="+254 712 345 678" readonly>
+        </div>
+        <p class="mt-1 text-xs text-gray-500">This is the phone number you registered with</p>
+      </div>
+      <div class="mb-8">
+        <label for="verification-code" class="block text-sm font-medium text-gray-700 mb-1">Verification Code</label>
+        <div class="flex justify-between gap-2">
+          <input type="text" maxlength="1" class="w-12 h-12 text-center text-xl font-bold bg-white border border-gray-300 rounded-lg text-gray-700">
+          <input type="text" maxlength="1" class="w-12 h-12 text-center text-xl font-bold bg-white border border-gray-300 rounded-lg text-gray-700">
+          <input type="text" maxlength="1" class="w-12 h-12 text-center text-xl font-bold bg-white border border-gray-300 rounded-lg text-gray-700">
+          <input type="text" maxlength="1" class="w-12 h-12 text-center text-xl font-bold bg-white border border-gray-300 rounded-lg text-gray-700">
+          <input type="text" maxlength="1" class="w-12 h-12 text-center text-xl font-bold bg-white border border-gray-300 rounded-lg text-gray-700">
+          <input type="text" maxlength="1" class="w-12 h-12 text-center text-xl font-bold bg-white border border-gray-300 rounded-lg text-gray-700">
+        </div>
+        <div class="mt-2 flex justify-between items-center">
+          <p class="text-xs text-gray-500">Code expires in <span class="font-medium">04:59</span></p>
+          <button class="text-sm text-primary font-medium">Resend Code</button>
+        </div>
+      </div>
+      <div class="flex gap-4">
+        <button id="back-to-account" class="w-1/3 border border-gray-300 text-gray-700 py-3 !rounded-button font-medium hover:bg-gray-50 transition whitespace-nowrap">
+          Back
+        </button>
+        <button id="verify-proceed" class="w-2/3 bg-primary text-white py-3 !rounded-button font-medium hover:bg-opacity-90 transition whitespace-nowrap">
+          Verify & Proceed
+        </button>
+      </div>
+      <div class="mt-6 bg-blue-50 p-4 rounded-lg flex items-start">
+        <div class="w-5 h-5 flex items-center justify-center mr-3 mt-0.5 text-blue-500 flex-shrink-0">
+          <i class="ri-information-line"></i>
+        </div>
+        <p class="text-sm text-blue-700">
+          M-PESA verification helps us confirm your identity and secure your account. Your phone number will be used for transaction notifications and security alerts.
+        </p>
+      </div>
+    </div>
+  </div>
+  <!-- Group Selection (Hidden) -->
+  <div id="group-step" class="bg-white rounded-xl shadow-md p-8 mb-8 hidden">
+    <div class="text-center mb-8">
+      <div class="w-20 h-20 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
+        <i class="ri-group-line text-primary ri-2x"></i>
+      </div>
+      <h2 class="text-2xl font-bold mb-2">Join or Create a Group</h2>
+      <p class="text-gray-600 max-w-md mx-auto">You can either join an existing savings group with an invitation code or create your own group.</p>
+    </div>
+    <div class="max-w-md mx-auto">
+      <div class="mb-6">
+        <div class="flex gap-4 mb-6">
+          <label class="custom-radio flex-1 flex items-center p-4 border border-gray-300 rounded-lg cursor-pointer">
+            <input type="radio" name="group-option" value="join" checked>
+            <span class="radio-mark"></span>
+            <div class="ml-2">
+              <h3 class="font-medium">Join a Group</h3>
+              <p class="text-xs text-gray-500">Use an invitation code</p>
+            </div>
+          </label>
+          <label class="custom-radio flex-1 flex items-center p-4 border border-gray-300 rounded-lg cursor-pointer">
+            <input type="radio" name="group-option" value="create">
+            <span class="radio-mark"></span>
+            <div class="ml-2">
+              <h3 class="font-medium">Create a Group</h3>
+              <p class="text-xs text-gray-500">Start your own</p>
+            </div>
+          </label>
+        </div>
+      </div>
+      <!-- Join Group Form -->
+      <div id="join-group-form">
+        <div class="mb-6">
+          <label for="invitation-code" class="block text-sm font-medium text-gray-700 mb-1">Invitation Code</label>
+          <div class="relative">
+            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+              <i class="ri-key-2-line text-gray-400"></i>
+            </div>
+            <input type="text" id="invitation-code" class="w-full pl-10 pr-4 py-3 bg-white border border-gray-300 rounded-lg text-gray-700 uppercase" placeholder="Enter 8-digit code">
+          </div>
+          <p class="mt-1 text-xs text-gray-500">Ask your group admin for the invitation code</p>
+        </div>
+        <div class="mb-8">
+          <div class="bg-gray-50 p-4 rounded-lg">
+            <h4 class="font-medium mb-2">Group Preview</h4>
+            <p class="text-sm text-gray-500 mb-4">Enter a valid invitation code to see group details</p>
+            <div class="hidden" id="group-preview">
+              <div class="flex items-center mb-3">
+                <div class="w-10 h-10 bg-primary/10 rounded-full flex items-center justify-center mr-3">
+                  <i class="ri-group-line text-primary"></i>
+                </div>
+                <div>
+                  <h5 class="font-medium">Umoja Savings Group</h5>
+                  <p class="text-xs text-gray-500">25 members • Created Jan 2025</p>
+                </div>
+              </div>
+              <div class="text-sm text-gray-600">
+                <p>Weekly contribution: KSh 2,500</p>
+                <p>Next contribution date: June 17, 2025</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Create Group Form (Hidden) -->
+      <div id="create-group-form" class="hidden">
+        <div class="mb-6">
+          <label for="group-name" class="block text-sm font-medium text-gray-700 mb-1">Group Name</label>
+          <div class="relative">
+            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+              <i class="ri-group-line text-gray-400"></i>
+            </div>
+            <input type="text" id="group-name" class="w-full pl-10 pr-4 py-3 bg-white border border-gray-300 rounded-lg text-gray-700" placeholder="Enter a name for your group">
+          </div>
+        </div>
+        <div class="mb-6">
+          <label for="contribution-amount" class="block text-sm font-medium text-gray-700 mb-1">Contribution Amount (KSh)</label>
+          <div class="relative">
+            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+              <i class="ri-money-dollar-circle-line text-gray-400"></i>
+            </div>
+            <input type="text" id="contribution-amount" class="w-full pl-10 pr-4 py-3 bg-white border border-gray-300 rounded-lg text-gray-700" placeholder="e.g. 1000">
+          </div>
+        </div>
+        <div class="mb-6">
+          <label for="contribution-frequency" class="block text-sm font-medium text-gray-700 mb-1">Contribution Frequency</label>
+          <div class="relative">
+            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+              <i class="ri-calendar-line text-gray-400"></i>
+            </div>
+            <div class="relative">
+              <select id="contribution-frequency" class="w-full pl-10 pr-10 py-3 bg-white border border-gray-300 rounded-lg text-gray-700 appearance-none">
+                <option value="weekly">Weekly</option>
+                <option value="biweekly">Bi-weekly</option>
+                <option value="monthly">Monthly</option>
+              </select>
+              <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+                <i class="ri-arrow-down-s-line text-gray-400"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="mb-8">
+          <label class="block text-sm font-medium text-gray-700 mb-1">Group Privacy</label>
+          <div class="flex items-center justify-between p-4 border border-gray-300 rounded-lg">
+            <div>
+              <h5 class="font-medium">Private Group</h5>
+              <p class="text-sm text-gray-500">Only invited members can join</p>
+            </div>
+            <label class="toggle-switch">
+              <input type="checkbox" checked>
+              <span class="toggle-slider"></span>
+            </label>
+          </div>
+        </div>
+      </div>
+      <div class="flex gap-4">
+        <button id="back-to-verification" class="w-1/3 border border-gray-300 text-gray-700 py-3 !rounded-button font-medium hover:bg-gray-50 transition whitespace-nowrap">
+          Back
+        </button>
+        <button id="group-proceed" class="w-2/3 bg-primary text-white py-3 !rounded-button font-medium hover:bg-opacity-90 transition whitespace-nowrap">
+          Continue
+        </button>
+      </div>
+    </div>
+  </div>
+  <!-- Complete Setup (Hidden) -->
+  <div id="complete-step" class="bg-white rounded-xl shadow-md p-8 mb-8 hidden">
+    <div class="text-center mb-8">
+      <div class="w-20 h-20 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
+        <i class="ri-check-line text-primary ri-2x"></i>
+      </div>
+      <h2 class="text-2xl font-bold mb-2">Setup Complete!</h2>
+      <p class="text-gray-600 max-w-md mx-auto">Your M-Chama account has been successfully created and you're ready to start saving.</p>
+    </div>
+    <div class="max-w-md mx-auto">
+      <div class="bg-gray-50 p-6 rounded-xl mb-8">
+        <h3 class="font-medium mb-4">Account Summary</h3>
+        <div class="space-y-4">
+          <div class="flex justify-between">
+            <span class="text-gray-600">Name:</span>
+            <span class="font-medium">James Mwangi</span>
+          </div>
+          <div class="flex justify-between">
+            <span class="text-gray-600">Phone:</span>
+            <span class="font-medium">+254 712 345 678</span>
+          </div>
+          <div class="flex justify-between">
+            <span class="text-gray-600">Email:</span>
+            <span class="font-medium">james.mwangi@example.com</span>
+          </div>
+          <div class="flex justify-between">
+            <span class="text-gray-600">Group:</span>
+            <span class="font-medium">Umoja Savings Group</span>
+          </div>
+          <div class="flex justify-between">
+            <span class="text-gray-600">Contribution:</span>
+            <span class="font-medium">KSh 2,500 Weekly</span>
+          </div>
+        </div>
+      </div>
+      <div class="mb-8">
+        <h3 class="font-medium mb-4">Next Steps</h3>
+        <div class="space-y-4">
+          <div class="flex">
+            <div class="w-8 h-8 bg-primary/10 rounded-full flex items-center justify-center mr-3 flex-shrink-0">
+              <span class="text-primary font-medium">1</span>
+            </div>
+            <div>
+              <h4 class="font-medium">Complete Your Profile</h4>
+              <p class="text-sm text-gray-600">Add your profile picture and additional details</p>
+            </div>
+          </div>
+          <div class="flex">
+            <div class="w-8 h-8 bg-primary/10 rounded-full flex items-center justify-center mr-3 flex-shrink-0">
+              <span class="text-primary font-medium">2</span>
+            </div>
+            <div>
+              <h4 class="font-medium">Make Your First Contribution</h4>
+              <p class="text-sm text-gray-600">Set up your first savings contribution via M-PESA</p>
+            </div>
+          </div>
+          <div class="flex">
+            <div class="w-8 h-8 bg-primary/10 rounded-full flex items-center justify-center mr-3 flex-shrink-0">
+              <span class="text-primary font-medium">3</span>
+            </div>
+            <div>
+              <h4 class="font-medium">Invite Friends & Family</h4>
+              <p class="text-sm text-gray-600">Grow your savings group by inviting others</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <button id="go-to-dashboard" class="w-full bg-primary text-white py-3 !rounded-button font-medium hover:bg-opacity-90 transition whitespace-nowrap mb-4">
+        Go to Dashboard
+      </button>
+      <div class="flex justify-center">
+        <button class="text-primary font-medium flex items-center">
+          <div class="w-5 h-5 flex items-center justify-center mr-1">
+            <i class="ri-download-line"></i>
+          </div>
+          Download Mobile App
+        </button>
+      </div>
+    </div>
+  </div>
+</main>
+<!-- Footer -->
+<footer class="bg-white border-t border-gray-200 py-6 mt-8">
+  <div class="container mx-auto px-4">
+    <div class="flex flex-col md:flex-row justify-between items-center">
+      <div class="flex items-center mb-4 md:mb-0">
+        <span class="text-xl font-['Montserrat'] font-bold mr-2"><span class="text-secondary">M</span><span class="text-primary">-Chama</span></span>
+        <div class="h-4 w-px bg-gray-300 mx-3"></div>
+        <span class="text-sm text-gray-500">© 2025 M-Chama. All rights reserved.</span>
+      </div>
+      <div class="flex items-center space-x-6">
+        <a href="#" class="text-sm text-gray-600 hover:text-primary">Terms of Service</a>
+        <a href="#" class="text-sm text-gray-600 hover:text-primary">Privacy Policy</a>
+        <a href="#" class="text-sm text-gray-600 hover:text-primary">Help Center</a>
+      </div>
+    </div>
+  </div>
+</footer>
+<!-- Scripts -->
+<script id="form-navigation-script">
+  document.addEventListener('DOMContentLoaded', function() {
+// Demo account credentials
+    const demoCredentials = {
+      email: 'demo@mchama.com',
+      password: 'demo123456'
+    };
+// Try demo button functionality
+    const tryDemoButton = document.getElementById('try-demo');
+    tryDemoButton.addEventListener('click', function() {
+      loginTab.click();
+      emailLoginTab.click();
+      const loginEmailInput = document.getElementById('login-email');
+      const loginPasswordInput = document.getElementById('login-password');
+      loginEmailInput.value = demoCredentials.email;
+      loginPasswordInput.value = demoCredentials.password;
+      document.getElementById('login-button').click();
+    });
+// Form validation and error message elements
+    const createErrorMessage = (message) => {
+      const div = document.createElement('div');
+      div.className = 'text-red-500 text-sm mt-1';
+      div.textContent = message;
+      return div;
+    };
+    const clearErrors = () => {
+      document.querySelectorAll('.text-red-500').forEach(el => el.remove());
+    };
+    const validateEmail = (email) => {
+      return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+    };
+    const validatePassword = (password) => {
+      return password.length >= 8;
+    };
+// Login form submission
+    const loginButton = document.getElementById('login-button');
+    const loginEmailInput = document.getElementById('login-email');
+    const loginPasswordInput = document.getElementById('login-password');
+    const loginPhoneInput = document.getElementById('login-phone');
+    const loginPhonePasswordInput = document.getElementById('login-phone-password');
+    loginButton.addEventListener('click', async function(e) {
+      e.preventDefault();
+      clearErrors();
+      const isEmailLogin = !document.getElementById('email-login-form').classList.contains('hidden');
+      let hasErrors = false;
+      if (isEmailLogin) {
+// Email login validation
+        if (!loginEmailInput.value) {
+          loginEmailInput.parentElement.parentElement.appendChild(
+            createErrorMessage('Please enter your email address')
+          );
+          hasErrors = true;
+        } else if (!validateEmail(loginEmailInput.value)) {
+          loginEmailInput.parentElement.parentElement.appendChild(
+            createErrorMessage('Please enter a valid email address')
+          );
+          hasErrors = true;
+        }
+        if (!loginPasswordInput.value) {
+          loginPasswordInput.parentElement.parentElement.appendChild(
+            createErrorMessage('Please enter your password')
+          );
+          hasErrors = true;
+        } else if (!validatePassword(loginPasswordInput.value)) {
+          loginPasswordInput.parentElement.parentElement.appendChild(
+            createErrorMessage('Password must be at least 8 characters long')
+          );
+          hasErrors = true;
+        }
+      } else {
+// Phone login validation
+        if (!loginPhoneInput.value) {
+          loginPhoneInput.parentElement.parentElement.appendChild(
+            createErrorMessage('Please enter your phone number')
+          );
+          hasErrors = true;
+        }
+        if (!loginPhonePasswordInput.value) {
+          loginPhonePasswordInput.parentElement.parentElement.appendChild(
+            createErrorMessage('Please enter your password')
+          );
+          hasErrors = true;
+        } else if (!validatePassword(loginPhonePasswordInput.value)) {
+          loginPhonePasswordInput.parentElement.parentElement.appendChild(
+            createErrorMessage('Password must be at least 8 characters long')
+          );
+          hasErrors = true;
+        }
+      }
+      if (hasErrors) return;
+// Show loading state
+      const buttonText = loginButton.querySelector('span');
+      const spinner = loginButton.querySelector('div');
+      buttonText.textContent = 'Logging in';
+      spinner.classList.remove('hidden');
+      loginButton.disabled = true;
+      try {
+// Simulate API call
+        await new Promise(resolve => setTimeout(resolve, 2000));
+// Check if using demo credentials
+        const isDemo = loginEmailInput.value === demoCredentials.email &&
+          loginPasswordInput.value === demoCredentials.password;
+        if (isDemo) {
+          window.location.href = 'https://portal.mchama.com/demo';
+        } else {
+          // Regular login - show error for non-demo accounts
+          throw new Error('Invalid credentials');
+        }
+      } catch (error) {
+// Handle login error
+        const errorMessage = createErrorMessage('Invalid email/phone or password. Please try again.');
+        loginButton.parentElement.insertBefore(errorMessage, loginButton);
+      } finally {
+// Reset button state
+        buttonText.textContent = 'Login';
+        spinner.classList.add('hidden');
+        loginButton.disabled = false;
+      }
+    });
+// Tab switching for signup/login
+    const signupTab = document.getElementById('signup-tab');
+    const loginTab = document.getElementById('login-tab');
+    const signupForm = document.getElementById('signup-form');
+    const loginForm = document.getElementById('login-form');
+    const switchToLogin = document.getElementById('switch-to-login');
+    const switchToSignup = document.getElementById('switch-to-signup');
+    signupTab.addEventListener('click', function() {
+      signupTab.classList.add('bg-primary', 'text-white');
+      signupTab.classList.remove('text-gray-700');
+      loginTab.classList.remove('bg-primary', 'text-white');
+      loginTab.classList.add('text-gray-700');
+      signupForm.classList.remove('hidden');
+      loginForm.classList.add('hidden');
+    });
+    loginTab.addEventListener('click', function() {
+      loginTab.classList.add('bg-primary', 'text-white');
+      loginTab.classList.remove('text-gray-700');
+      signupTab.classList.remove('bg-primary', 'text-white');
+      signupTab.classList.add('text-gray-700');
+      loginForm.classList.remove('hidden');
+      signupForm.classList.add('hidden');
+    });
+    switchToLogin.addEventListener('click', function() {
+      loginTab.click();
+    });
+    switchToSignup.addEventListener('click', function() {
+      signupTab.click();
+    });
+// Tab switching for email/phone login
+    const emailLoginTab = document.getElementById('email-login-tab');
+    const phoneLoginTab = document.getElementById('phone-login-tab');
+    const emailLoginForm = document.getElementById('email-login-form');
+    const phoneLoginForm = document.getElementById('phone-login-form');
+    emailLoginTab.addEventListener('click', function() {
+      emailLoginTab.classList.add('bg-primary', 'text-white');
+      emailLoginTab.classList.remove('text-gray-700');
+      phoneLoginTab.classList.remove('bg-primary', 'text-white');
+      phoneLoginTab.classList.add('text-gray-700');
+      emailLoginForm.classList.remove('hidden');
+      phoneLoginForm.classList.add('hidden');
+    });
+    phoneLoginTab.addEventListener('click', function() {
+      phoneLoginTab.classList.add('bg-primary', 'text-white');
+      phoneLoginTab.classList.remove('text-gray-700');
+      emailLoginTab.classList.remove('bg-primary', 'text-white');
+      emailLoginTab.classList.add('text-gray-700');
+      phoneLoginForm.classList.remove('hidden');
+      emailLoginForm.classList.add('hidden');
+    });
+  });
+</script>
+<script id="password-toggle-script">
+  document.addEventListener('DOMContentLoaded', function() {
+    const togglePasswordButtons = document.querySelectorAll('.toggle-password');
+    togglePasswordButtons.forEach(button => {
+      button.addEventListener('click', function() {
+        const passwordInput = this.parentElement.previousElementSibling;
+        if (passwordInput.type === 'password') {
+          passwordInput.type = 'text';
+          this.classList.remove('ri-eye-off-line');
+          this.classList.add('ri-eye-line');
+        } else {
+          passwordInput.type = 'password';
+          this.classList.remove('ri-eye-line');
+          this.classList.add('ri-eye-off-line');
+        }
+      });
+    });
+  });
+</script>
+<script id="verification-code-script">
+  document.addEventListener('DOMContentLoaded', function() {
+    const verificationInputs = document.querySelectorAll('#verification-step input[type="text"]');
+    verificationInputs.forEach((input, index) => {
+      input.addEventListener('keyup', function(e) {
+        if (e.key >= 0 && e.key <= 9) {
+          if (index < verificationInputs.length - 1) {
+            verificationInputs[index + 1].focus();
+          }
+        } else if (e.key === 'Backspace') {
+          if (index > 0 && this.value === '') {
+            verificationInputs[index - 1].focus();
+          }
+        }
+      });
+      input.addEventListener('click', function() {
+        this.select();
+      });
+    });
+  });
+</script>
+<script id="group-selection-script">
+  document.addEventListener('DOMContentLoaded', function() {
+    const joinRadio = document.querySelector('input[name="group-option"][value="join"]');
+    const createRadio = document.querySelector('input[name="group-option"][value="create"]');
+    const joinForm = document.getElementById('join-group-form');
+    const createForm = document.getElementById('create-group-form');
+    const invitationCode = document.getElementById('invitation-code');
+    const groupPreview = document.getElementById('group-preview');
+    joinRadio.addEventListener('change', function() {
+      if (this.checked) {
+        joinForm.classList.remove('hidden');
+        createForm.classList.add('hidden');
+      }
+    });
+    createRadio.addEventListener('change', function() {
+      if (this.checked) {
+        createForm.classList.remove('hidden');
+        joinForm.classList.add('hidden');
+      }
+    });
+    invitationCode.addEventListener('input', function() {
+      if (this.value.length >= 6) {
+        groupPreview.classList.remove('hidden');
+      } else {
+        groupPreview.classList.add('hidden');
+      }
+    });
+  });
+</script>
+<script id="onboarding-navigation-script">
+  document.addEventListener('DOMContentLoaded', function() {
+// Step navigation
+    const accountStep = document.querySelector('.step-indicator .step:nth-child(1)');
+    const verificationStep = document.querySelector('.step-indicator .step:nth-child(2)');
+    const groupStep = document.querySelector('.step-indicator .step:nth-child(3)');
+    const completeStep = document.querySelector('.step-indicator .step:nth-child(4)');
+    const accountForm = document.querySelector('main > div:nth-child(3)');
+    const verificationForm = document.getElementById('verification-step');
+    const groupForm = document.getElementById('group-step');
+    const completeForm = document.getElementById('complete-step');
+// Buttons for navigation
+    const createAccountBtn = accountForm.querySelector('button.bg-primary');
+    const backToAccountBtn = document.getElementById('back-to-account');
+    const verifyProceedBtn = document.getElementById('verify-proceed');
+    const backToVerificationBtn = document.getElementById('back-to-verification');
+    const groupProceedBtn = document.getElementById('group-proceed');
+    const goToDashboardBtn = document.getElementById('go-to-dashboard');
+// Account to Verification
+    createAccountBtn.addEventListener('click', function() {
+      accountForm.classList.add('hidden');
+      verificationForm.classList.remove('hidden');
+      accountStep.classList.add('completed');
+      verificationStep.classList.add('active');
+    });
+// Verification to Account (back)
+    backToAccountBtn.addEventListener('click', function() {
+      verificationForm.classList.add('hidden');
+      accountForm.classList.remove('hidden');
+      accountStep.classList.remove('completed');
+      verificationStep.classList.remove('active');
+    });
+// Verification to Group
+    verifyProceedBtn.addEventListener('click', function() {
+      verificationForm.classList.add('hidden');
+      groupForm.classList.remove('hidden');
+      verificationStep.classList.add('completed');
+      verificationStep.classList.remove('active');
+      groupStep.classList.add('active');
+    });
+// Group to Verification (back)
+    backToVerificationBtn.addEventListener('click', function() {
+      groupForm.classList.add('hidden');
+      verificationForm.classList.remove('hidden');
+      verificationStep.classList.remove('completed');
+      verificationStep.classList.add('active');
+      groupStep.classList.remove('active');
+    });
+// Group to Complete
+    groupProceedBtn.addEventListener('click', function() {
+      groupForm.classList.add('hidden');
+      completeForm.classList.remove('hidden');
+      groupStep.classList.add('completed');
+      groupStep.classList.remove('active');
+      completeStep.classList.add('active');
+    });
+// Dashboard redirect
+    goToDashboardBtn.addEventListener('click', function() {
+      alert('Redirecting to dashboard...');
+    });
+  });
+</script>
+</body>
+</html>
