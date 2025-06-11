@@ -831,7 +831,7 @@
         const isDemo = loginEmailInput.value === demoCredentials.email &&
           loginPasswordInput.value === demoCredentials.password;
         if (isDemo) {
-          window.location.href = 'https://portal.mchama.com/demo';
+          window.location.href = 'portal.html';
         } else {
           // Regular login - show error for non-demo accounts
           throw new Error('Invalid credentials');
